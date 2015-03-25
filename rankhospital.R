@@ -33,28 +33,26 @@ rankhospital <- function(state, outcome, num = "best") {
   m <- as.numeric(outcomeData[,index]) ## medical issues to monitor
   names <- outcomeData[, hospitalNameIndex]
   result <- outcomeData[order(m, names, decreasing = desc, na.last = NA), ] 
-  print(is.numeric(num))
-  if(is.numeric(num))
-  {
-    rank = as.numeric(num)
-    count = as.numeric(nrow(result))
-    print(class(count))
-    print (class(rank))
-    value <- rank - count == 0
-    print(class(value))
-    if(value == TRUE)  { return NA } 
-    else 
-    {
-      return (result[rank, 2])
-    }
-  }
-  else
+  #print(is.numeric(num))
+  if(!is.numeric(num))
   {
     return(result[1,2])
   }
+  if(nrow(result) > num)
+  {
+    return (result[num, 2])
+  }
+  if(nrow(result) < num)
+  {
+    spital <- NA
+    #print(paste(spital))
+    return(spital)
+  }
 }
 
-rankhospital("TX", "heart failure", 4)
-rankhospital("MD", "heart attack", "worst")
-x <- 1:4
-if(nrow(x) - 6 == TRUE) return NA else { return 1}
+# rankhospital("TX", "heart failure", 4)
+# rankhospital("MD", "heart attack", "worst")
+# rankhospital("MN", "heart attack", 5000)
+# 
+# x <- 1:4
+# if(nrow(x) - 6 == TRUE) return NA else { return 1}
